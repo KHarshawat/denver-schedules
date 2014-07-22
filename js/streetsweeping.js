@@ -1,8 +1,8 @@
 // TODO: Move into more generic file
 Handlebars.registerHelper("firstDate", function(array) {
   // TODO: Dumb, use date manipulation library
-  var days = new Array("SUN", "MON", "TUE", "WED", "THU", "FRI", "SAT");
-  var months = new Array("JAN", "FEB", "MAR", "APR", "MAY", "JUN", "JUL", "AUG", "SEP", "OCT", "NOV", "DEC");
+  var days = new Array("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
+  var months = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
   if(array && array.length > 0) {
     var first = array[0];
     var date = new Date(first);
