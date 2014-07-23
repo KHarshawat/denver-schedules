@@ -1,5 +1,7 @@
 // TODO: Move into more generic file
-Handlebars.registerHelper("firstDate", function(array) {
+var minimumDate = new Date(-8640000000000000);
+
+Handlebars.registerHelper("firstDate", function(array){
   // TODO: Dumb, use date manipulation library
   var days = new Array("Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat");
   var months = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
@@ -44,11 +46,45 @@ function getGeocode(){
   });
 }
 
+function setNextDate(schedules){
+  console.log("*****in next date");
+  var today = new Date();
+  var next = minimumDate;
+  var description = "";
+  $.each(schedules, function(index, schedule){
+    if(schedule.upcoming && schedule.upcoming.length > 0) {
+      var possibly = new Date(schedule.upcoming[0]);
+      if(next == minimumDate){
+        next = possibly;
+        description = schedule.description + " of " + schedule.name;
+      }
+      else
+      {
+        if(possibly < next){
+          next = possibly;
+          description = schedule.description + " of " + schedule.name;
+        }
+      }
+    }
+  });
+  
+  if(minimumDate != next)
+  {
+    // TODO: As stupid as the first time you did it
+    var days = new Array("Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday");
+    var months = new Array("Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec");
+    schedules.next = days[next.getDay()] + ", " + months[next.getMonth()] + " " + next.getDate();;
+    schedules.nextDescription = description;
+  }
+}
+
 function loadData(address){
   var routes   = $("#route-template").html();
   var notes = $("#notes-template").html();
+  var next = $("#next-template").html();
   var routeTemplate = Handlebars.compile(routes);
   var notesTemplate = Handlebars.compile(notes);
+  var nextTemplate = Handlebars.compile(next);
   $.ajax({
     url: "http://production-denver-now-api.herokuapp.com/schedules/streetsweeping",
     //url: "http://127.0.0.1:8080/schedules/streetsweeping",
@@ -56,13 +92,16 @@ function loadData(address){
     success: function(schedules){
       console.log("Success getting data from server: " + JSON.stringify(schedules));
       // Add a method used as a conditional in mustache
+      schedules.next = minimumDate;
+      var today = new Date();
+      console.log("Today is " + today);
       $.each(schedules, function(index, schedule){
         schedule.hasUpcoming = function(){
           return schedule.upcoming.length > 0;
         }
       });
 
-
+      setNextDate(schedules);
 
       schedules.notEmpty = function(){
         return schedules && schedules.length > 0;
@@ -75,6 +114,7 @@ function loadData(address){
 
       $('#results').html(routeTemplate(schedules));
       $('#notes').html(notesTemplate(schedules));
+      $('#next').html(nextTemplate(schedules));
     },
     error: function(data){
       console.log('Error: ' + JSON.stringify(data));
