@@ -1,0 +1,30 @@
+<div class="container">
+
+    <div class="col-lg-6 col-lg-offset-3 sched-descr hidden-print text-center">
+        Find street sweeping information for an address in Denver. Start by entering an address below or use <a href="javascript:void(0)" onclick="defaultAddress()">this example address</a>.
+    </div>
+
+    <div class="row bigSearch-container hidden-print">
+        <div class="form  col-lg-8 col-lg-offset-2" role="form">
+            <div class="form-group col-xs-10">
+
+                <input id="address" type="search" class="form-control bigSearch-input" placeholder="e.g. 942 S Pearl St, Denver, CO">
+
+            </div>
+            <button id="submit" type="submit" class="btn blue-btn bigSearch-submit col-xs-2">Find Address</button>
+
+        </div>
+    </div>
+
+    <!-- ========= NEXT STREET SWEEPING ======== -->
+    <div id="results" class="row hidden-print"></div>
+
+    <!-- WARNING  ============================================================================  -->
+    <div class="col-lg-8 col-lg-offset-2 hidden-print" id="ss-warning">
+        <br>
+        <div class="alert alert-warning">
+            <strong>Note:</strong> This site does not guarantee that the information is accurate, nor that the notifications will be delivered on a timely basis. Please consult the street signage near your vehical for the most up-to-date parking information.
+        </div>
+    </div>
+
+</div>  <!-- .container -->

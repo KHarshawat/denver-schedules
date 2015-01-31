@@ -1,0 +1,140 @@
+{{#validAddress}}
+
+    <!-- NEXT STREET SWEEPING =====================================================================  -->
+    <div class="col-lg-8 col-lg-offset-2" id="ss-next">
+        <h4 class="section-title">Next Street Sweeping</h4>
+        The next street sweeping near you is <div class="highlight"><strong>{{formatNextDate nextSweeping.date}}</strong></div> on the <div class="highlight"><strong>{{nextSweeping.description}} side of {{toTitleCase  nextSweeping.name}}</strong></div>.
+        <hr>
+    </div>
+
+
+    <!--  REMINDER SIGNUP =======================================================================  -->
+    {{^nightly}}
+
+        <div class="col-lg-8 col-lg-offset-2 hidden-print" id="ss-reminders">
+            <h4 class="section-title">Street Sweeping Reminders</h4>
+            <div>
+                Get notified<sup> 1</sup> when of street sweeping in this area.<sup>2</sup> Sign up for emails and text message reminders.<sup>3</sup>
+            </div>
+        </div>
+
+
+        <div class="col-lg-8 col-lg-offset-2 reminderSignup hidden-print">
+            <div class="row">
+                <div class="col-lg-8 col-lg-offset-2">
+                    <div id="reminder-alerts" class="alert alert-danger" style="display:none" role="alert">
+
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <img src="img/email.svg" width="32" class="reminderIcon">
+                <div class="reminderText">
+                    Enter your email address, and we will send alerts directly to your inbox.
+                </div>
+            </div>
+
+            <div class="col-lg-6">
+                <div class="form-inline reminderInput" role="form">
+                    <div class="form-group">
+                        <label class="sr-only" for="emailReminder">Enter an email address</label>
+                        <input type="email" class="form-control" id="email" placeholder="e.g. you@example.com">
+                    </div>
+                    <button type="submit" onclick="createReminders('email')" class="btn blue-btn reminderButton">Subscribe</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8 col-lg-offset-2 reminderSignup hidden-print">
+            <div class="col-lg-6">
+                <img src="img/phone.svg" width="32" class="reminderIcon">
+                <div class="reminderText">Receive text message alerts on your phone. </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="form-inline reminderInput" role="form">
+                    <div class="form-group">
+                        <label class="sr-only" for="phoneReminder">Enter a phone number</label>
+                        <input type="tel" class="form-control" id="sms" placeholder="e.g. 720-555-5555">
+                    </div>
+                    <button type="submit" onclick="createReminders('sms')" class="btn blue-btn reminderButton">Subscribe</button>
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-8 col-lg-offset-2 footnotes">
+            <p>1. You will not receive reminders for streets that are swept nightly.</p>
+            <p>2. Reminders are sent for each side of the streets surrounding your address (roughly six reminders a month).</p>
+            <p>3. Email and text message alerts will be sent one day prior to the beginning of street sweeping in this area.</p>
+        </div>
+        <div class="hidden col-lg-8 col-lg-offset-2"><hr></div>
+    {{/nightly}}
+    <!-- FULL SCHEDULE ==========================================================================  -->
+
+
+    <div class="col-lg-8 col-lg-offset-2 hidden-print" id="ss-schedule">
+        <h4 class="section-title">Full Schedule</h4>
+        <div>
+            Below you&#39;ll find the full street sweeping schedule for the address you entered. Street sweeping will not occur on city holidays and you do not need to move your vehicle on those days. <br><br>
+        </div>
+
+        <div class="table-responsive">
+            <table class="table table-curved">
+                <tr>
+                    <th>Next</th>
+                    <th>Time</th>
+                    <th>Street Name</th>
+                    <th>Side</th>
+                </tr>
+
+                {{#this}}
+                    {{#hasUpcoming}}
+                        <tr>
+                            <td>{{firstDate upcoming}}</td>
+                            <td>8am - 5pm</td>
+                            <td>{{toTitleCase name}}</td>
+                            <td>{{description}}</td>
+                        </tr>
+                    {{/hasUpcoming}}
+                    {{^hasUpcoming}}
+                        <tr>
+                            <td>Tonight</td>
+                            <td>8am - 5pm</td>
+                            <td>{{toTitleCase name}}</td>
+                            <td>{{description}}</td>
+                        </tr>
+                    {{/hasUpcoming}}
+                {{/this}}
+            </table>
+        </div>
+
+
+        <!--    <div id="save-calendar">
+             <div class="col-lg-6">
+               Download or subscribe to this areas street sweeping calendar in iCal, Google Calendar or Outlook.<br>
+             </div>
+             <div class="col-lg-6">
+               <button type="button" onclick="doPopUp()" class="btn grey-btn mobile-btn trigger-pop-up">
+                 <i class="fa fa-calendar"></i><span class="btn-text">Add to my Calendar</span>
+               </button>
+               <button type="button" onclick="doPopUp()" class="btn grey-btn mobile-btn trigger-pop-up">
+                 <i class="fa fa-print"></i><span class="btn-text" >Print Calendar</span>
+               </button>
+             </div>
+           </div> -->
+
+
+    </div> <!-- #ss-schedule -->
+
+
+
+{{/validAddress}}
+
+<!-- INCORRECT ADDRESS -->
+{{^validAddress}}
+    <div class="row">
+        <div class="col-lg-8 col-lg-offset-2">
+            <h4 class="section-title">Sorry! {{error}}</h4>
+        </div>
+    </div>
+{{/validAddress}}
